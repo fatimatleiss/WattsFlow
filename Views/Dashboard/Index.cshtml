@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "لوحة التحكم";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<!--
+
+        <div>
+            <div class="numbers">1,000 kWh</div>
+            <div class="cardName">إجمالي الاستهلاك</div>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="flash-outline"></ion-icon>
+        </div>
+    </div> 
+      <div class="card">
+        <div>
+            <div class="numbers">$7,842</div>
+            <div class="cardName">الإيرادات</div>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="cash-outline"></ion-icon>
+        </div>
+    </div>
+    -->
+
+
+<div class="cardBox">
+    <div class="card">
+        <div>
+            <div class="numbers">284</div>
+            <div class="cardName">العملاء النشطين</div>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="people-outline"></ion-icon>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <div class="numbers">@ViewData["TotalExpenses"]</div>
+            <div class="cardName">إجمالي المدفوعات</div>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="cash-outline"></ion-icon>
+        </div>
+    </div>
+
+    <!-- New Card for Inactive Customers -->
+    <div class="card">
+        <div>
+            <div class="numbers">@ViewBag.InactiveCustomersCount</div>
+            <div class="cardName">العملاء غير النشطين</div>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="person-remove-outline"></ion-icon>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/js/main.js"></script>

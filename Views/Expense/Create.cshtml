@@ -1,0 +1,49 @@
+﻿@model WattsFlowProject.ViewModels.ExpensesViewModel
+
+@{
+    ViewBag.Title = "إنشاء المدفوعات";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Forms.css" asp-append-version="true" />
+<script src="~/js/main.js"></script>
+
+<div class="expense-container">
+    <form asp-action="Create" method="post" class="expense-form">
+        <h2 class="expense-heading">إنشاء المدفوعات</h2>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="expense-alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="form-group">
+            <label asp-for="ExpenseDate" class="expense-label">تاريخ المدفوعات</label>
+            <input type="date" asp-for="ExpenseDate" class="expense-input"
+                   value="@Model.ExpenseDate.ToString("yyyy-MM-dd") ?? " 2025-01-01"" />
+            <span asp-validation-for="ExpenseDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ExpensesTypeId" class="expense-label">نوع المدفوعات</label>
+            <select asp-for="ExpensesTypeId" class="expense-input"
+                    asp-items="@(new SelectList(Model.types, "ExpensesTypeId", "ExpenseTypeName"))">
+                <option value="">-- اختر نوع المدفوعات --</option>
+            </select>
+            <span asp-validation-for="ExpensesTypeId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Amount" class="expense-label">المبلغ</label>
+            <input asp-for="Amount" class="expense-input" type="number" step="0.001" min="0.001" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="expense-button">حفظ</button>
+        <button class="expense-button" asp-action="Index" asp-controller="Expense">العودة لقائمة المدفوعات</button>
+
+    </form>
+</div>

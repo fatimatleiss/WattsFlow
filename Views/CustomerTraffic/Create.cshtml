@@ -1,0 +1,94 @@
+﻿@model WattsFlowProject.Models.CustomerTraffic
+
+@{
+    ViewData["Title"] = "إنشاء حركة الزبائن";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Forms.css" asp-append-version="true" />
+<script src="~/js/main.js"></script>
+
+<div class="expense-container">
+    <form asp-action="Create" method="post" class="expense-form" onsubmit="return validateDate()">
+        <input type="hidden" asp-for="CustomerId" />
+        <input type="hidden" asp-for="PreviousTrafficDate" id="previousTrafficDate" />
+
+        <h2 class="expense-heading">إنشاء حركة الزبائن</h2>
+
+        <div class="form-group">
+            <label asp-for="CurrentTraffic" class="expense-label">الحركة الحالية</label>
+            <input asp-for="CurrentTraffic" class="expense-input" />
+            <span asp-validation-for="CurrentTraffic" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PaidAmount" class="expense-label">المبلغ المدفوع</label>
+            <input asp-for="PaidAmount" class="expense-input" />
+            <span asp-validation-for="PaidAmount" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CurrentTrafficDate" class="expense-label">تاريخ الحركة الحالية</label>
+            <input asp-for="CurrentTrafficDate" class="expense-input" type="date" id="currentTrafficDate" value="@Model.CurrentTrafficDate.ToString("yyyy-MM-dd") ?? " 2025-01-01"" />
+            <span asp-validation-for="CurrentTrafficDate" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="expense-button">إنشاء</button>
+        <button type="button" onclick="window.location.href='@Url.Action("Index")'" class="expense-button">العودة إلى القائمة</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const errorMessage = '@Html.Raw(TempData["ErrorMessage"])';
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'خطأ',
+                text: errorMessage,
+            });
+        }
+
+        function validateDate() {
+            const currentTrafficDateInput = document.getElementById('currentTrafficDate').value;
+            const previousTrafficDateInput = document.getElementById('previousTrafficDate').value;
+
+            // Parse dates
+            const currentTrafficDate = new Date(currentTrafficDateInput);
+            const previousTrafficDate = new Date(previousTrafficDateInput);
+
+            // Check if dates are valid
+            if (isNaN(currentTrafficDate.getTime())) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ',
+                    text: 'تاريخ الحركة الحالية غير صالح.',
+                });
+                return false;
+            }
+
+            if (isNaN(previousTrafficDate.getTime())) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ',
+                    text: 'تاريخ الحركة السابقة غير صالح.',
+                });
+                return false;
+            }
+
+            // Validate date condition
+            if (currentTrafficDate < previousTrafficDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ',
+                    text: 'تاريخ الحركة الحالية لا يمكن أن يكون قبل تاريخ الحركة السابقة.',
+                });
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+}

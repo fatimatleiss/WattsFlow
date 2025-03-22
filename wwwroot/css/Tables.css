@@ -1,0 +1,143 @@
+﻿/* General table styling */
+.table {
+    width: calc(100% - 60px); /* Increased width adjustment to add more space on both sides */
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: 40px; /* Increased left margin */
+    margin-right: 40px; /* Increased right margin */
+    background-color: #ffffff;
+    border-radius: 15px; /* Increased the border-radius for smoother corners */
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Increased the padding inside the table for more space */
+}
+
+.button-left {
+    display: block;
+    margin-top: 20px;
+    margin-left: 0;
+    text-align: left;
+}
+
+/* Table header styling */
+.table thead {
+    background-color: #e1ad01; /* Changed from blue to yellow */
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Zebra striping for table rows */
+.table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Hover effect */
+.table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* Buttons and icons */
+a.btn-primary {
+    background-color: #e1ad01; /* Changed from blue to yellow */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+    a.btn-primary:hover {
+        background-color: #c79800; /* Darker yellow on hover */
+    }
+
+i {
+    font-size: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #e1ad01; /* Changed from blue to yellow */
+}
+
+    i:hover {
+        color: #c79800; /* Darker yellow on hover */
+    }
+
+/* Alert messages */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.custom-section {
+    padding: 20px; /* Apply 20px padding */
+}
+
+.grid-section {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 24px; /* Increase the gap for more space */
+}
+
+.button-container {
+    justify-self: start; /* Align button to the left */
+}
+
+.content-container {
+    justify-self: end; /* Align content to the right */
+    display: flex;
+    align-items: center;
+}
+
+/* Adjusting the search input field */
+.dataTables_filter input {
+    padding-left: 25px; /* Add padding to create space for the icon */
+    font-size: 14px; /* Adjust font size */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Change the position of the search icon */
+.dataTables_filter .fa-search {
+    position: absolute;
+    left: 10px; /* Adjust position of the icon */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the icon */
+    font-size: 18px; /* Adjust icon size */
+    color: #e1ad01; /* Changed from blue to yellow */
+}
+
+/* Make sure the search container is relative for icon positioning */
+.dataTables_filter {
+    position: relative;
+}
+
+.custom-table-container {
+    margin: 20px; /* Adjust as needed */
+}

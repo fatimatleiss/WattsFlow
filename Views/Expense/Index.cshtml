@@ -1,0 +1,121 @@
+﻿@model IEnumerable<WattsFlowProject.Models.Expenses>
+
+@{
+    var counter = 1;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+<script src="~/js/main.js"></script>
+<link rel="stylesheet" href="~/css/Tables.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+
+<section class="grid-section p-3 custom-section">
+    
+    <div class="button-container">
+        <a asp-controller="ExpenseType" asp-action="Create" class="btn btn-primary">إضافة نوع مدفوعات</a>
+    </div>
+
+    <div class="content-container d-flex align-items-center">
+        <h4 class="pt-1 mb-0"> مجموع المدفوعات : </h4>
+        <p id="topNb" class="mb-0 ms-3">
+            <strong>@Model.Count()</strong>
+        </p>
+
+    </div>
+
+</section>
+<div class="card custom-table-container">
+    <div class="card-body">
+        <table id="expensesTable" class="table table-responsive text-center">
+            <thead>
+                <tr>
+                    <th>تاريخ المدفوعات</th>
+                    <th>نوع المدفوعات</th>
+                    <th>المبلغ</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var expense in Model)
+                {
+                    <tr>
+                        <td>@expense.ExpenseDate.ToString("yyyy-MM-dd")</td>
+                        <td>@expense.ExpenseType?.ExpenseTypeName</td>
+                        <td>@expense.Amount.ToString("F2")</td> 
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@expense.ExpenseId"><i class='bx bx-edit mt-1'></i></a>
+                            <form method="post" asp-controller="Expense" asp-action="Delete" asp-route-id="@expense.ExpenseId" style="display:inline;" onsubmit="return confirmDelete(this);">
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                    <i class='bx bx-trash mt-1' style="color:red"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class=" button-left" style="text-align: left; margin-top: 30px;">
+    <a asp-action="Create" class="btn btn-primary">إضافة مدفوعات</a>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#expensesTable').DataTable({
+                "columnDefs": [
+                    { "orderable": false, "targets": [3] }
+                ],
+                "lengthMenu": [5, 10, 25, 50, 100],
+                "pageLength": 5,
+                "language": {
+                    "lengthMenu": "عرض _MENU_",
+                    "zeroRecords": "لا يوجد مصروفات",
+                    "info": "الصفحة _PAGE_ من _PAGES_",
+                    "infoEmpty": "",
+                    "infoFiltered": "",
+                    "paginate": {
+                        "previous": "<",
+                        "next": ">",
+                        "first": "<<",
+                        "last": ">>"
+                    }
+                }
+            });
+
+            $('.dataTables_filter input').attr('placeholder', '🔎 بحث');
+            $('.dataTables_filter label').contents().filter(function () {
+                return this.nodeType === 3;
+            }).remove();
+        });
+
+        function confirmDelete(form) {
+            event.preventDefault(); 
+
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "لن تتمكن من استرجاع هذا المصروف!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'نعم، احذفه!',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); 
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "تم رفض الوصول";
+}
+<link rel="stylesheet" href="~/css/AccessDenial.css" />
+<div class="access-denied-container">
+    <h2>@ViewData["Title"]</h2>
+    <p>ليس لديك إذن للوصول إلى هذه الصفحة.</p>
+    <a href="@Url.Action("Index", "Home")" class="btn">الرجوع إلى الصفحة الرئيسية</a>
+</div>

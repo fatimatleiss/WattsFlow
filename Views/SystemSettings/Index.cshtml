@@ -1,0 +1,88 @@
+﻿@model WattsFlowProject.Models.SystemSettings
+
+@{
+    ViewData["Title"] = "إعدادات النظام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model == null)
+{
+    <div class="alert alert-warning">
+        <strong>تنبيه:</strong> لم يتم العثور على إعدادات النظام. يرجى إضافة القيم المطلوبة.
+    </div>
+}
+
+<script src="~/js/main.js"></script>
+<link rel="stylesheet" href="~/css/sett.css" asp-append-version="true" />
+
+<div class="settings-container">
+    <form asp-action="Index" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="settings-row">
+            <div class="settings-column">
+                <div class="settings-card">
+                    <div class="settings-card-body">
+                        <h5 class="settings-card-title">سعر الكيلوواط</h5>
+                        <div class="form-group">
+                            <label for="KwPrice">سعر الكيلوواط:</label>
+                            <input asp-for="KwPrice" class="form-input" />
+                            <span asp-validation-for="KwPrice" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-column">
+                <div class="settings-card">
+                    <div class="settings-card-body">
+                        <h5 class="settings-card-title">سعر الليرة</h5>
+                        <div class="form-group">
+                            <label for="LiraRate">سعر الليرة:</label>
+                            <input asp-for="LiraRate" class="form-input" />
+                            <span asp-validation-for="LiraRate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-row">
+            <div class="settings-column">
+                <div class="settings-card">
+                    <div class="settings-card-body">
+                        <h5 class="settings-card-title">العنوان</h5>
+                        <div class="form-group">
+                            <label for="Title">العنوان:</label>
+                            <input asp-for="Title" class="form-input" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary form-btn">حفظ</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage) {
+                Swal.fire({
+                    icon: 'success', 
+                    title: 'نجاح', 
+                    text: successMessage,
+                    confirmButtonText: 'موافق', 
+                    timer: 3000, 
+                    timerProgressBar: true 
+                }).then(() => {
+                     fetch('/SystemSettings/ClearTempData'); 
+                });
+            }
+        });
+    </script>
+}

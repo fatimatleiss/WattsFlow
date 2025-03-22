@@ -1,0 +1,172 @@
+﻿@model IEnumerable<WattsFlowProject.Models.Customer>
+
+@{
+    var counter = 1;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+<script src="~/js/main.js"></script>
+<link rel="stylesheet" href="~/css/Tables.css" asp-append-version="true" />
+
+<section class="grid-section p-3 custom-section">
+    <div class="content-container d-flex align-items-center">
+        <h4 class="pt-1 mb-0"> عدد العملاء : </h4>
+        <p id="topNb" class="mb-0 ms-3">
+            <strong>@(Model != null ? Model.Count() : 0)</strong>
+        </p>
+    </div>
+</section>
+
+<div class="card custom-table-container">
+    <div class="card-body">
+        <table id="customerTable" class="table table-striped table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>الاسم </th>
+                    <th>رقم الهاتف</th>
+                    <th>العنوان</th>
+                    <th>المبنى</th>
+                    <th>الطابق</th>
+                    <th>الجهة</th>
+                    <th> العلبة</th>
+                    <th>القاطع الكهربائي</th>
+                    <th>الدفع الثابت</th>
+                    <th>الحالة</th>
+                    <th>تاريخ الإضافة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model)
+                {
+                    <tr>
+                        <td>@customer.FullName</td>
+                        <td>@customer.PhoneNumber</td>
+                        <td>@customer.Address</td>
+                        <td>@customer.Building</td>
+                        <td>@customer.Floor</td>
+                        <td>@customer.SideType</td>
+                        <td>@customer.PostDetails.PostAddress</td>
+                        <td>@customer.CircuitBreakerPower</td>
+                        <td>@customer.FixedPayment.ToString("F2")</td>
+                        <td>@(customer.IsActive ? "نشط" : "غير نشط")</td>
+                        <td>@customer.AddedDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <a asp-controller="Customer" asp-action="Edit" asp-route-id="@customer.CustomerId"><i class='bx bx-edit mt-1'></i></a>
+                            <form method="post" asp-controller="Customer" asp-action="Delete" asp-route-id="@customer.CustomerId" style="display:inline;" onsubmit="return confirmDelete(this);">
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                    <i class='bx bx-trash mt-1' style="color:red"></i>
+                                </button>
+                            </form>
+                            <a asp-controller="CustomerTraffic" asp-action="Create" asp-route-customerId="@customer.CustomerId">
+                                <i class="bx bx-plus mt-1"></i>
+                            </a>
+                            <a asp-controller="CustomerTraffic" asp-action="Details"  asp-route-customerId="@customer.CustomerId">
+                                <i class="bi bi-file-text"></i>
+                            </a>
+
+
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="button-left" style="text-align: left; margin-top: 30px;">
+    <a asp-controller="Customer" asp-action="Create" class="btn btn-primary">إضافة عميل</a>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function confirmDelete(form) {
+    event.preventDefault(); // Prevent the form from submitting immediately
+
+    Swal.fire({
+        title: 'هل أنت متأكد؟',
+        text: "لن تتمكن من استرجاع هذا العميل!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'نعم، احذفه!',
+        cancelButtonText: 'إلغاء'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit(); // Submit the form if the user confirms
+        }
+    });
+}
+       $(document).ready(function () {
+    $('#customerTable').DataTable({
+        "columnDefs": [
+            { "orderable": false, "targets": [11] } // Disable sorting for the "Actions" column
+        ],
+        "lengthMenu": [5, 10, 25, 50, 100],
+        "pageLength": 5,
+        "language": {
+            "lengthMenu": "عرض _MENU_",
+            "zeroRecords": "لا يوجد عملاء",
+            "info": "الصفحة _PAGE_ من _PAGES_",
+            "infoEmpty": "",
+            "infoFiltered": "",
+            "paginate": {
+                "previous": "<",
+                "next": ">",
+                "first": "<<",
+                "last": ">>"
+            }
+        },
+        "dom": '<"d-flex justify-content-between align-items-center"<"left-section d-flex"Bl>f>rtip', // Add buttons to the layout
+        "buttons": [
+            {
+                extend: 'copy',
+                text: '<i class="fas fa-copy"></i> نسخ',
+                titleAttr: 'نسخ',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the "Actions" column
+                }
+            },
+            {
+                extend: 'excelHtml5', // Excel export button
+                text: '<i class="fas fa-file-excel"></i> تصدير إلى Excel',
+                titleAttr: 'تصدير إلى Excel',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the "Actions" column
+                }
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> تصدير إلى PDF',
+                titleAttr: 'تصدير إلى PDF',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the "Actions" column
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> طباعة',
+                titleAttr: 'طباعة',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the "Actions" column
+                }
+            }
+        ]
+    }).buttons().container().appendTo('#customerTable_wrapper .col-md-6:eq(0)');
+
+    $('.dataTables_filter input').attr('placeholder', '🔎 بحث');
+    $('.dataTables_filter label').contents().filter(function () {
+        return this.nodeType === 3;
+    }).remove();
+});
+
+    </script>
+}

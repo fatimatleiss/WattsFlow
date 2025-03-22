@@ -1,0 +1,130 @@
+﻿/* Container Styling */
+.expense-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    margin: 20px 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Form Styling */
+.expense-form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Form Sections */
+.expense-section {
+    width: 100%;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+    .expense-section:last-child {
+        border-bottom: none;
+    }
+
+    /* Section Headers */
+    .expense-section h3 {
+        font-size: 18px;
+        color: #e1ad01; /* Yellow text */
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        border-bottom: 2px solid #e1ad01; /* Yellow border */
+        padding-bottom: 5px;
+    }
+
+/* Two-Column Layout */
+.expense-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+/* Labels */
+.expense-label {
+    font-size: 14px;
+    color: #444;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Inputs */
+.expense-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+    .expense-input:focus {
+        border-color: #e1ad01; /* Yellow border on focus */
+        outline: none;
+    }
+
+/* Select Dropdown */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Checkbox Styling */
+.expense-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .expense-checkbox input {
+        transform: scale(1.2);
+    }
+
+/* Button */
+.expense-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #e1ad01; /* Yellow background */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .expense-button:hover {
+        background-color: #c79800; /* Darker yellow on hover */
+    }
+
+/* Error Message */
+.expense-alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .expense-grid {
+        grid-template-columns: 1fr;
+    }
+}

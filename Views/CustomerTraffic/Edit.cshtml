@@ -1,0 +1,101 @@
+﻿@model WattsFlowProject.Models.CustomerTraffic
+
+@{
+    ViewData["Title"] = "تعديل حركة الزبون";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/log.css" asp-append-version="true" />
+
+<div class="expense-container">
+    <form asp-action="Edit" method="post" class="expense-form" onsubmit="return validateDate()">
+        <input type="hidden" asp-for="Id" />
+        <h2 class="expense-heading">تعديل حركة الزبون</h2>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="expense-alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="form-group">
+            <label asp-for="Id" class="expense-label">رقم الزبون</label>
+            <input asp-for="Id" class="expense-input" readonly />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PreviousTraffic" class="expense-label">الحركة السابقة</label>
+            <input asp-for="PreviousTraffic" class="expense-input" readonly />
+            <span asp-validation-for="PreviousTraffic" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PreviousTrafficDate" class="expense-label">تاريخ الحركة السابقة</label>
+            <input asp-for="PreviousTrafficDate" class="expense-input" readonly id="previousTrafficDate" />
+            <span asp-validation-for="PreviousTrafficDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CurrentTraffic" class="expense-label">الحركة الحالية</label>
+            <input asp-for="CurrentTraffic" class="expense-input" />
+            <span asp-validation-for="CurrentTraffic" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CurrentTrafficDate" class="expense-label">تاريخ الحركة الحالية</label>
+            <input asp-for="CurrentTrafficDate" class="expense-input" type="date" id="currentTrafficDate" />
+            <span asp-validation-for="CurrentTrafficDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PriceUSD" class="expense-label">السعر بالدولار</label>
+            <input asp-for="PriceUSD" class="expense-input" readonly />
+            <span asp-validation-for="PriceUSD" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PriceLBP" class="expense-label">السعر بالليرة</label>
+            <input asp-for="PriceLBP" class="expense-input" readonly />
+            <span asp-validation-for="PriceLBP" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PaidAmount" class="expense-label">المبلغ المدفوع</label>
+            <input asp-for="PaidAmount" class="expense-input" />
+            <span asp-validation-for="PaidAmount" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="RemainingAmount" class="expense-label">المبلغ المتبقي</label>
+            <input asp-for="RemainingAmount" class="expense-input" readonly />
+            <span asp-validation-for="RemainingAmount" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="expense-button">حفظ</button>
+    </form>
+</div>
+
+<div class="button-left" style="text-align: left; margin-top: 30px;">
+    <a asp-action="Index" class="btn btn-primary">الرجوع إلى القائمة</a>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function validateDate() {
+            const currentTrafficDate = new Date(document.getElementById('currentTrafficDate').value);
+            const previousTrafficDate = new Date(document.getElementById('previousTrafficDate').value);
+
+            if (currentTrafficDate < previousTrafficDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ',
+                    text: 'تاريخ الحركة الحالية لا يمكن أن يكون قبل تاريخ الحركة السابقة.',
+                });
+                return false;
+            }
+            return true; 
+        }
+    </script>
+}

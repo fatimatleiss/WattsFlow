@@ -1,0 +1,32 @@
+﻿@model WattsFlowProject.Models.ExpenseType
+
+@{
+    ViewBag.Title = "إنشاء نوع المدفوعات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Forms.css?v=1.0" asp-append-version="true">
+<script src="~/js/main.js"></script>
+
+<div class="expense-container">
+    <form asp-action="Create" method="post" class="expense-form">
+        <h2 class="expense-heading">إنشاء نوع المدفوعات</h2>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="expense-alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="form-group">
+            <label asp-for="ExpenseTypeName" class="expense-label">نوع المدفوعات</label>
+            <input asp-for="ExpenseTypeName" class="expense-input" placeholder="أدخل اسم نوع المصاريف" />
+            <span asp-validation-for="ExpenseTypeName" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="expense-button">حفظ</button>
+        <button class="expense-button" asp-action="Index" asp-controller="ExpenseType">العودة لقائمة نوع المدفوعات</button>
+
+    </form>
+</div>

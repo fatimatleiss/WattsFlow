@@ -1,0 +1,103 @@
+﻿@model List<WattsFlowProject.Models.ExpenseType>
+
+@{
+    var counter = 1;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+<script src="~/js/main.js"></script>
+
+<link rel="stylesheet" href="~/css/Tables.css" asp-append-version="true" />
+
+<section class="grid-section p-3 custom-section">
+    <div class="button-container">
+        <a asp-controller="ExpenseType" asp-action="Create" class="btn btn-primary">إضافة نوع المدفوعات</a>
+    </div>
+</section>
+
+<div class="card custom-table-container">
+    <div class="card-body">
+        <table id="Table" class="table table-responsive text-center">
+            <thead>
+                <tr>
+                    <th>نوع المدفوعات</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var expense in Model)
+                {
+                    <tr>
+                        <td>@expense.ExpenseTypeName</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@expense.ExpensesTypeId"><i class='bx bx-edit mt-1'></i></a>
+                            <a href="javascript:void(0);" onclick="confirmDelete('@Url.Action("Delete", "ExpenseType", new { id = expense.ExpensesTypeId })');">
+                                <i class='bx bx-trash mt-1' style="color:red"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+ <div class="button-left" style="text-align: left; margin-top: 30px;">
+    <a asp-controller="Expense" asp-action="Index" class="btn btn-primary">العوده الى المدفوعات</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#Table').DataTable({
+                "columnDefs": [
+                    { "orderable": false, "targets": [1] }  
+                ],
+                "lengthMenu": [5, 10, 25, 50, 100],
+                "pageLength": 5,
+                "language": {
+                    "lengthMenu": "Display _MENU_",
+                    "zeroRecords": "No Expenses Found",
+                    "info": "Page _PAGE_ of _PAGES_",
+                    "infoEmpty": "",
+                    "infoFiltered": "",
+                    "paginate": {
+                        "previous": "<",
+                        "next": ">",
+                        "first": "<<",
+                        "last": ">>"
+                    }
+                }
+            });
+
+             $('.dataTables_filter input').attr('placeholder', '🔎 Search');
+            $('.dataTables_filter label').contents().filter(function () {
+                return this.nodeType === 3;
+            }).remove();
+        });
+
+        function confirmDelete(deleteUrl) {
+                        event.preventDefault(); 
+
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "لن تتمكن من استعادة هذه العلبة!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'نعم، احذفها!',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+    </script>
+}

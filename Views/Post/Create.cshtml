@@ -1,0 +1,38 @@
+﻿@model WattsFlowProject.Models.PostDetails
+
+@{
+    ViewBag.Title = "إضافة علبة كهرباء جديدة";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/Forms.css?v=1.0" asp-append-version="true">
+<script src="~/js/main.js"></script>
+
+<div class="expense-container">
+    <form asp-action="Create" method="post" class="expense-form">
+        <h2 class="expense-heading">إضافة علبة كهرباء جديدة</h2>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="expense-alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="form-group">
+            <label asp-for="PostNumber" class="expense-label">رقم العلبة</label>
+            <input asp-for="PostNumber" class="expense-input" placeholder="أدخل رقم العلبة" type="number" required min="0" />
+            <span asp-validation-for="PostNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PostAddress" class="expense-label">عنوان العلبة</label>
+            <input asp-for="PostAddress" class="expense-input" placeholder="أدخل عنوان العلبة" />
+            <span asp-validation-for="PostAddress" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="expense-button">حفظ</button>
+    </form>
+</div>
